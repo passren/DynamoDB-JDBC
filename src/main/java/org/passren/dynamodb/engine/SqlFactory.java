@@ -23,6 +23,10 @@ public class SqlFactory {
                 return new DmlSelectSql(sql, visitor);
             case INSERT:
                 return new DmlInsertSql(sql, visitor);
+            case UPDATE:
+                return new DmlUpdateSql(sql, visitor);
+            case DELETE:
+                return new DmlDeleteSql(sql, visitor);
             case NONE:
             default:
                 throw new InvalidSqlException();

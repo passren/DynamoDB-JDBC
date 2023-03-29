@@ -64,4 +64,14 @@ public class DmlSqlTests<T> {
         assertEquals("table1", sql.getTable());
         assertEquals(2, sql.getPlaceholders());
     }
+
+    @Test
+    void simpleUpdateSqlParser() {
+
+    }
+
+    @Test
+    void simpleDeleteSqlParser() {
+        
+    }
 }
