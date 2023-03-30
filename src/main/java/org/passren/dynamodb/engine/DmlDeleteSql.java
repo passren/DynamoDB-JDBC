@@ -1,7 +1,5 @@
 package org.passren.dynamodb.engine;
 
-import java.util.Map;
-
 import org.passren.dynamodb.sql.DynamoSqlAst;
 
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbRequest;

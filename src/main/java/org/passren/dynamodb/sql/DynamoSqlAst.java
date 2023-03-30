@@ -10,6 +10,7 @@ public class DynamoSqlAst extends DynamoSqlParserBaseVisitor<Void> {
     private QueryType queryType = QueryType.NONE;
     private Map<Integer, String> attributes = new HashMap<Integer, String>();
     private Map<String, String> values = new HashMap<String, String>();
+    private Map<String, String> updateElements =  new HashMap<String, String>();
     private String table;
     private Integer columnIndex = 0;
     private int placeholders = 0;
@@ -30,6 +31,10 @@ public class DynamoSqlAst extends DynamoSqlParserBaseVisitor<Void> {
         return values;
     }
 
+    public Map<String, String> getUpdateElements() {
+        return updateElements;
+    }
+
     public int getPlaceholders() {
         return placeholders;
     }
@@ -43,6 +48,18 @@ public class DynamoSqlAst extends DynamoSqlParserBaseVisitor<Void> {
     @Override
     public Void visitInsertStatement(DynamoSqlParser.InsertStatementContext ctx) {
         queryType = QueryType.INSERT;
+        return visitChildren(ctx);
+    }
+
+    @Override
+    public Void visitUpdateStatement(DynamoSqlParser.UpdateStatementContext ctx) {
+        queryType = QueryType.UPDATE;
+        return visitChildren(ctx);
+    }
+
+    @Override
+    public Void visitDeleteStatement(DynamoSqlParser.DeleteStatementContext ctx) {
+        queryType = QueryType.DELETE;
         return visitChildren(ctx);
     }
 
@@ -71,6 +88,13 @@ public class DynamoSqlAst extends DynamoSqlParserBaseVisitor<Void> {
     public Void visitSelectElement(DynamoSqlParser.SelectElementContext ctx) {
         attributes.put(columnIndex, ctx.getText());
         columnIndex = columnIndex + 1;
+        return visitChildren(ctx);
+    }
+
+    @Override public Void visitUpdatedElement(DynamoSqlParser.UpdatedElementContext ctx) {
+        String path = ctx.getChild(0).getText();
+        String data = ctx.getChild(2).getText();
+        updateElements.put(path, data);
         return visitChildren(ctx);
     }
 

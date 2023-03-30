@@ -1,13 +1,16 @@
 package org.passren.dynamodb.sql;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.passren.dynamodb.engine.DmlInsertSql;
 import org.passren.dynamodb.engine.DmlSelectSql;
+import org.passren.dynamodb.engine.DmlUpdateSql;
 import org.passren.dynamodb.engine.SqlFactory;
 import org.passren.dynamodb.engine.Common.QueryType;
 
@@ -67,7 +70,17 @@ public class DmlSqlTests<T> {
 
     @Test
     void simpleUpdateSqlParser() {
-
+        DmlUpdateSql sql = (DmlUpdateSql) SqlFactory.create("""
+            UPDATE Music
+            SET AwardsWon=1
+            SET AwardDetail='Grammys'
+            WHERE Artist='Acme Band' AND SongTitle='PartiQL Rocks'
+        """);
+        assertEquals(QueryType.UPDATE, sql.getQueryType());
+        Map<String, String> expected = new HashMap<String, String>();
+        expected.put("AwardsWon", "1");
+        expected.put("AwardDetail", "'Grammys'");
+        assertTrue(sql.getUpdatedElements().equals(expected));
     }
 
     @Test

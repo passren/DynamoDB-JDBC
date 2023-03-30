@@ -57,6 +57,8 @@ PRIMARY:                             'PRIMARY';
 PURGE:                               'PURGE';
 SELECT:                              'SELECT';
 SET:                                 'SET';
+REMOVE:                              'REMOVE';
+RETURNING:                           'RETURNING';
 SEPARATOR:                           'SEPARATOR';
 SHOW:                                'SHOW';
 STATEMENT:                           'STATEMENT';
@@ -159,6 +161,15 @@ fragment QUOTE_SYMB
     : SINGLE_QUOTE_SYMB | DOUBLE_QUOTE_SYMB | REVERSE_QUOTE_SYMB
     ;
 
+// Literal Returning Options
+RETURNING_ALL_OLD:                   'ALL OLD';
+RETURNING_MODIFIED_OLD:              'MODIFIED OLD';
+RETURNING_ALL_NEW:                   'ALL NEW';
+RETURNING_MODIFIED_NEW:              'MODIFIED NEW';
+
+RETURN_VALUES
+    : RETURNING_ALL_OLD | RETURNING_MODIFIED_OLD | RETURNING_ALL_NEW | RETURNING_MODIFIED_NEW
+    ;
 
 // Literal Primitives
 

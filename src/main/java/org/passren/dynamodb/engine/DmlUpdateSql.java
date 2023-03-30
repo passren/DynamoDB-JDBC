@@ -10,21 +10,21 @@ import software.amazon.awssdk.services.dynamodb.model.ExecuteStatementRequest;
 public class DmlUpdateSql extends BaseSql {
     
     private String table;
-    private Map<String, String> values;
+    private Map<String, String> updatedElements;
 
     public DmlUpdateSql(String sql, DynamoSqlAst v) {
         super(sql, v);
 
         table = visitor.getTable();
-        values = visitor.getValues();
+        updatedElements = visitor.getUpdateElements();
     }
 
     public String getTable() {
         return table;
     }
 
-    public Map<String, String> getValues() {
-        return values;
+    public Map<String, String> getUpdatedElements() {
+        return updatedElements;
     }
 
     @Override

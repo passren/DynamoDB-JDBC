@@ -103,10 +103,21 @@ singleDeleteStatement
       (WHERE expression)?
     ;
 
+// singleUpdateStatement
+//     : UPDATE tableName (AS? uid)?
+//       SET updatedElement (',' updatedElement)*
+//       (WHERE expression)? limitClause?
+//     ;
+
+// updatedElement
+//     : fullColumnName '=' expression
+//     ;
+
 singleUpdateStatement
     : UPDATE tableName (AS? uid)?
-      SET updatedElement (',' updatedElement)*
-      (WHERE expression)? limitClause?
+      (SET|REMOVE) updatedElement ((SET|REMOVE) updatedElement)*
+      (WHERE expression)?
+      (RETURNING RETURN_VALUES STAR)?
     ;
 
 updatedElement
