@@ -1,20 +1,16 @@
 package org.passren.dynamodb.sql;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+import org.passren.dynamodb.engine.Common.QueryType;
+import org.passren.dynamodb.engine.*;
 
-import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
-import org.passren.dynamodb.engine.DmlInsertSql;
-import org.passren.dynamodb.engine.DmlSelectSql;
-import org.passren.dynamodb.engine.DmlUpdateSql;
-import org.passren.dynamodb.engine.SqlFactory;
-import org.passren.dynamodb.engine.Common.QueryType;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class DmlSqlTests<T> {
+class DmlSqlTests<T> {
 
     @Test
     void simpleSelectSqlParser() {
@@ -22,15 +18,15 @@ public class DmlSqlTests<T> {
         assertEquals(QueryType.SELECT, sql.getQueryType());
         assertEquals("table1", sql.getTable());
         assertEquals(Map.ofEntries(
-            new AbstractMap.SimpleEntry<Integer, String>(0, "a"),
-            new AbstractMap.SimpleEntry<Integer, String>(1, "b")
+            Map.entry(0, "a"),
+            Map.entry(1, "b")
         ), sql.getColumns());
 
         sql = (DmlSelectSql) SqlFactory.create("SELECT * FROM table1");
         assertEquals(QueryType.SELECT, sql.getQueryType());
         assertEquals("table1", sql.getTable());
         assertEquals(Map.ofEntries(
-            new AbstractMap.SimpleEntry<Integer, String>(0, "*")
+            Map.entry(0, "*")
         ), sql.getColumns());
     }
 
@@ -42,8 +38,8 @@ public class DmlSqlTests<T> {
         assertEquals(QueryType.SELECT, sql.getQueryType());
         assertEquals("table1", sql.getTable());
         assertEquals(Map.ofEntries(
-            new AbstractMap.SimpleEntry<Integer, String>(0, "a"),
-            new AbstractMap.SimpleEntry<Integer, String>(1, "b")
+            Map.entry(0, "a"),
+            Map.entry(1, "b")
         ), sql.getColumns());
         assertEquals(2, sql.getPlaceholders());
     }
@@ -54,8 +50,8 @@ public class DmlSqlTests<T> {
         assertEquals(QueryType.INSERT, sql.getQueryType());
         assertEquals("table1", sql.getTable());
         assertEquals(Map.ofEntries(
-            new AbstractMap.SimpleEntry<String, String>("'col1'", "'a'"),
-            new AbstractMap.SimpleEntry<String, String>("'col2'", "'b'")
+            Map.entry("'col1'", "'a'"),
+            Map.entry("'col2'", "'b'")
         ), sql.getValues());
     }
     
@@ -80,11 +76,43 @@ public class DmlSqlTests<T> {
         Map<String, String> expected = new HashMap<String, String>();
         expected.put("AwardsWon", "1");
         expected.put("AwardDetail", "'Grammys'");
-        assertTrue(sql.getUpdatedElements().equals(expected));
+        assertEquals(sql.getUpdatedElements(), expected);
     }
 
     @Test
     void simpleDeleteSqlParser() {
-        
+        String testSql = """
+            DELETE FROM Music WHERE Artist = 'Acme Band' AND SongTitle = 'PartiQL Rocks'
+        """;
+
+        DmlDeleteSql sql = (DmlDeleteSql) SqlFactory.create(testSql);
+        assertEquals(QueryType.DELETE, sql.getQueryType());
+        assertEquals("Music", sql.getTable());
+
+        String testSqlWithoutWhere = "DELETE FROM Music";
+        assertThrows(InvalidSqlException.class, () -> SqlFactory.create(testSqlWithoutWhere));
+
+        String testSqlWithErrorReturn = "DELETE FROM Music WHERE Artist = 'Acme Band' RETURNING bad value";
+        assertThrows(InvalidSqlException.class, () -> SqlFactory.create(testSqlWithErrorReturn));
+    }
+    @Test
+    void deleteSqlWithReturningParser() {
+        String testSql = """
+            DELETE FROM Music WHERE Artist = 'Acme Band' AND SongTitle = 'PartiQL Rocks' RETURNING ALL OLD *
+        """;
+        DmlDeleteSql sql = (DmlDeleteSql) SqlFactory.create(testSql);
+        assertEquals(QueryType.DELETE, sql.getQueryType());
+        assertEquals("Music", sql.getTable());
+
+    }
+
+    @Test
+    void deleteSqlWithPlaceholderParser() {
+        DmlDeleteSql sql = (DmlDeleteSql) SqlFactory.create("""
+            DELETE FROM Music WHERE Artist = ? AND SongTitle = ? RETURNING ALL OLD *
+        """);
+        assertEquals(QueryType.DELETE, sql.getQueryType());
+        assertEquals("Music", sql.getTable());
+        assertEquals(2, sql.getPlaceholders());
     }
 }

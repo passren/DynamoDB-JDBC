@@ -22,6 +22,8 @@ public class JdbcStatement implements Statement {
     protected final int resultSetType;
     protected final int resultSetConcurrency;
 
+    protected JdbcResultSet resultSet;
+
     JdbcStatement(JdbcConnection conn, int resultSetType, int resultSetConcurrency) {
         this.conn = conn;
         this.resultSetType = resultSetType;
@@ -40,21 +42,22 @@ public class JdbcStatement implements Statement {
 
     @Override
     public ResultSet executeQuery(String sql) throws SQLException {
-        BaseSql stmt = SqlFactory.create(sql);
-        return new JdbcResultSet(this, stmt);
+        BaseSql typedSql = SqlFactory.create(sql);
+        resultSet = new JdbcResultSet(this, typedSql);
+        return resultSet;
     }
 
     @Override
     public boolean execute(String sql) throws SQLException {
-        BaseSql stmt = SqlFactory.create(sql);
-        executor = new DmlExecutor(this, stmt);
-        return true;
+        BaseSql typedSql = SqlFactory.create(sql);
+        resultSet = new JdbcResultSet(this, typedSql);
+        return resultSet.getExecutor().getResponseData() != null;
     }
 
     @Override
     public int executeUpdate(String sql) throws SQLException {
-        BaseSql stmt = SqlFactory.create(sql);
-        executor = new DmlExecutor(this, stmt);
+        BaseSql typedSql = SqlFactory.create(sql);
+        executor = new DmlExecutor(this, typedSql);
         LinkedList<Map<String, AttributeValue>> responseData = executor.getResponseData();
         return responseData == null ? 0: responseData.size();
     }

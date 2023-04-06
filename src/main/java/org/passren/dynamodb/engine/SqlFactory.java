@@ -18,18 +18,12 @@ public class SqlFactory {
         visitor.visit(parser.root());
         QueryType queryType = visitor.getQueryType();
 
-        switch (queryType) {
-            case SELECT:
-                return new DmlSelectSql(sql, visitor);
-            case INSERT:
-                return new DmlInsertSql(sql, visitor);
-            case UPDATE:
-                return new DmlUpdateSql(sql, visitor);
-            case DELETE:
-                return new DmlDeleteSql(sql, visitor);
-            case NONE:
-            default:
-                throw new InvalidSqlException();
-        }
+        return switch (queryType) {
+            case SELECT -> new DmlSelectSql(sql, visitor);
+            case INSERT -> new DmlInsertSql(sql, visitor);
+            case UPDATE -> new DmlUpdateSql(sql, visitor);
+            case DELETE -> new DmlDeleteSql(sql, visitor);
+            case NONE, default -> throw new InvalidSqlException();
+        };
     }
 }
