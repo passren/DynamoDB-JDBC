@@ -57,7 +57,7 @@ public class JdbcResultSet implements ResultSet {
         if (sql.getQueryType() == QueryType.SELECT) {
             DmlSelectSql selectSql = (DmlSelectSql)sql;
             return currentRow.get(
-                selectSql.getColumns().get(Integer.valueOf(columnIndex))
+                selectSql.getColumns().get(columnIndex)
             );
         }
 
@@ -68,6 +68,10 @@ public class JdbcResultSet implements ResultSet {
         return currentRow.get(columnName);
     }
 
+
+    public DmlExecutor getExecutor() {
+        return executor;
+    }
     @Override
     public <T> T unwrap(Class<T> iface) throws SQLException {
         throw new UnsupportedOperationException("Not Supported");
@@ -336,7 +340,7 @@ public class JdbcResultSet implements ResultSet {
                                     .filter(e -> columnLabel.equals(e.getValue()))
                                     .map(Map.Entry::getKey).collect(Collectors.toList());
         
-        if (keyList != null && keyList.size() > 0) {
+        if (!keyList.isEmpty()) {
             return keyList.get(0);
         }
 

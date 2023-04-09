@@ -2,6 +2,7 @@ package org.passren.dynamodb.engine;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import org.passren.dynamodb.JdbcStatement;
 
@@ -10,7 +11,6 @@ import software.amazon.awssdk.services.dynamodb.model.ExecuteStatementResponse;
 
 
 public class DmlExecutor extends BaseExecutor {
-
     public DmlExecutor(JdbcStatement stmt, BaseSql s) throws SQLException {
         this(stmt, s, null);
     }
@@ -25,10 +25,8 @@ public class DmlExecutor extends BaseExecutor {
     public void execute() {
         switch (sql.getQueryType()) {
             case SELECT:
-                Integer limit = ((DmlSelectSql)sql).getLimit();
-                if (limit != null) {
-                    builder = builder.limit(limit);
-                }
+                Optional.ofNullable(((DmlSelectSql) sql).getLimit()).ifPresent(builder::limit);
+                break;
             case INSERT:
                 break;
             case UPDATE:

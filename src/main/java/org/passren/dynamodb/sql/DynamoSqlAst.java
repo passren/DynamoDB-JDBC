@@ -8,9 +8,9 @@ import org.passren.dynamodb.engine.Common.QueryType;
 public class DynamoSqlAst extends DynamoSqlParserBaseVisitor<Void> {
 
     private QueryType queryType = QueryType.NONE;
-    private Map<Integer, String> attributes = new HashMap<Integer, String>();
-    private Map<String, String> values = new HashMap<String, String>();
-    private Map<String, String> updateElements =  new HashMap<String, String>();
+    private Map<Integer, String> attributes = new HashMap<>();
+    private Map<String, String> values = new HashMap<>();
+    private Map<String, String> updateElements =  new HashMap<>();
     private String table;
     private Integer columnIndex = 0;
     private int placeholders = 0;

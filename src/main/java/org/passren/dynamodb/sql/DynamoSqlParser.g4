@@ -99,8 +99,9 @@ deleteStatement
 
 singleDeleteStatement
     : DELETE
-    FROM tableName
-      (WHERE expression)?
+      FROM tableName
+      WHERE expression
+      (RETURNING RETURNING_ALL_OLD STAR)?
     ;
 
 // singleUpdateStatement

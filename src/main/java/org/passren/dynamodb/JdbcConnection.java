@@ -121,7 +121,7 @@ public class JdbcConnection implements Connection {
         if (!isClosed && ddbClient != null) {
             ddbClient.close();
             isClosed = true;
-        };
+        }
     }
 
     @Override

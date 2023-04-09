@@ -1,8 +1,5 @@
 package org.passren.dynamodb;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +12,8 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(OrderAnnotation.class)
 @DisplayName("Test DML Select Operations with PartiQL syntax")
@@ -94,5 +93,91 @@ public class DmlTests extends BaseTests {
         }
 
         assertEquals(1, rs.getRow());
+    }
+
+    @Test
+    @Order(5)
+    void deleteSimpleData() throws SQLException {
+        Statement statement = conn.createStatement();
+        String deleteSql = """
+            DELETE FROM ddbjdbc01
+            WHERE pk='testcase01'
+            AND sk=0
+        """;
+        int deleted = statement.executeUpdate(deleteSql);
+        assertEquals(0, deleted);
+
+        String selectSql = """
+            SELECT pk, sk, col1 FROM ddbjdbc01
+            WHERE pk='testcase01'
+            AND sk=0
+        """;
+        ResultSet rs = statement.executeQuery(selectSql);
+        assertFalse(rs.next());
+
+        String sql = """
+            INSERT INTO ddbjdbc01 VALUE {
+                'pk': 'testcase01', 'sk': 0,
+                'col1': 'this is a string'
+            }
+        """;
+        statement.executeUpdate(sql);
+
+        String deleteWithReturnSql = """
+            DELETE FROM ddbjdbc01
+            WHERE pk='testcase01'
+            AND sk=0 RETURNING ALL OLD *
+        """;
+        rs = statement.executeQuery(deleteWithReturnSql);
+        while (rs.next()) {
+            assertEquals("testcase01", rs.getString("pk"));
+            assertEquals(0, rs.getInt("sk"));
+            assertEquals("this is a string", rs.getString("col1"));
+        }
+        assertEquals(0, rs.getRow());
+    }
+
+    @Test
+    @Order(6)
+    void deleteWithParameters() throws SQLException {
+        Statement statement = conn.createStatement();
+        String simpleInsertSql = """
+            INSERT INTO ddbjdbc01 VALUE {
+                'pk': 'testcase01', 'sk': 0,
+                'col1': 'this is a string'
+            }
+        """;
+        statement.executeUpdate(simpleInsertSql);
+
+        String deleteSql = """
+            DELETE FROM ddbjdbc01
+            WHERE pk=? AND sk=?
+        """;
+        PreparedStatement delPs = conn.prepareStatement(deleteSql);
+        delPs.setString(1, "testcase01");
+        delPs.setInt(2, 0);
+        boolean result = delPs.execute();
+        assertTrue(result);
+
+        String deleteSqlWithReturn = """
+            DELETE FROM ddbjdbc01
+            WHERE pk=? AND sk=? RETURNING ALL OLD *
+        """;
+        statement.executeUpdate(simpleInsertSql);
+        delPs = conn.prepareStatement(deleteSqlWithReturn);
+        delPs.setString(1, "testcase01");
+        delPs.setInt(2, -1);
+
+        ResultSet rs = delPs.executeQuery();
+        assertFalse(rs.next());
+
+        delPs.setInt(2, 0);
+        rs = delPs.executeQuery();
+        while (rs.next()) {
+            assertEquals("testcase01", rs.getString("pk"));
+            assertEquals(0, rs.getInt("sk"));
+            assertEquals("this is a string", rs.getString("col1"));
+        }
+        assertEquals(0, rs.getRow());
     }
 }

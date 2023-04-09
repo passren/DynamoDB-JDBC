@@ -83,13 +83,7 @@ public class JdbcPreparedStatement extends JdbcStatement implements PreparedStat
 
     @Override
     public void setNull(int parameterIndex, int sqlType) throws SQLException {
-        boolean isNull = true;
-        if (sqlType == Types.NUL) {
-            isNull = true;
-        } else {
-            isNull = false;
-        }
-
+        boolean isNull = sqlType == Types.NUL;
         AttributeValue av = AttributeValue.builder().nul(isNull).build();
         setParameter(parameterIndex, av);
     }
@@ -269,7 +263,7 @@ public class JdbcPreparedStatement extends JdbcStatement implements PreparedStat
 
     public void setBytesSet(int parameterIndex, Set<byte[]> bs) throws SQLException {
         AttributeValue av = AttributeValue.builder().bs(
-            bs.stream().map(e -> SdkBytes.fromByteArray(e)).collect(Collectors.toList())
+            bs.stream().map(SdkBytes::fromByteArray).toList()
         ).build();
         setParameter(parameterIndex, av);
     }

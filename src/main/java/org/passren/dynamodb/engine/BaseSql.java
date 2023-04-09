@@ -17,7 +17,7 @@ public abstract class BaseSql {
         originalSql = sql;
         visitor = v;
         placeholders = v.getPlaceholders();
-
+        queryType = v.getQueryType();
         requestBuilder = transform();
     }
     
@@ -32,7 +32,7 @@ public abstract class BaseSql {
     }
 
     public QueryType getQueryType() {
-        return visitor.getQueryType();
+        return queryType;
     }
 
     public int getPlaceholders() {
