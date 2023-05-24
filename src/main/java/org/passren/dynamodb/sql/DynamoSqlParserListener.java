@@ -312,6 +312,16 @@ public interface DynamoSqlParserListener extends ParseTreeListener {
 	 */
 	void exitSingleUpdateStatement(DynamoSqlParser.SingleUpdateStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link DynamoSqlParser#updateStatementElement}.
+	 * @param ctx the parse tree
+	 */
+	void enterUpdateStatementElement(DynamoSqlParser.UpdateStatementElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DynamoSqlParser#updateStatementElement}.
+	 * @param ctx the parse tree
+	 */
+	void exitUpdateStatementElement(DynamoSqlParser.UpdateStatementElementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link DynamoSqlParser#updatedElement}.
 	 * @param ctx the parse tree
 	 */
@@ -321,6 +331,16 @@ public interface DynamoSqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitUpdatedElement(DynamoSqlParser.UpdatedElementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DynamoSqlParser#removeElement}.
+	 * @param ctx the parse tree
+	 */
+	void enterRemoveElement(DynamoSqlParser.RemoveElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DynamoSqlParser#removeElement}.
+	 * @param ctx the parse tree
+	 */
+	void exitRemoveElement(DynamoSqlParser.RemoveElementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DynamoSqlParser#fullColumnName}.
 	 * @param ctx the parse tree
@@ -341,6 +361,16 @@ public interface DynamoSqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitConstant(DynamoSqlParser.ConstantContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DynamoSqlParser#valueConstant}.
+	 * @param ctx the parse tree
+	 */
+	void enterValueConstant(DynamoSqlParser.ValueConstantContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DynamoSqlParser#valueConstant}.
+	 * @param ctx the parse tree
+	 */
+	void exitValueConstant(DynamoSqlParser.ValueConstantContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DynamoSqlParser#decimalLiteral}.
 	 * @param ctx the parse tree
@@ -371,6 +401,56 @@ public interface DynamoSqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStringLiteral(DynamoSqlParser.StringLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DynamoSqlParser#listLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void enterListLiteral(DynamoSqlParser.ListLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DynamoSqlParser#listLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void exitListLiteral(DynamoSqlParser.ListLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DynamoSqlParser#mapLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void enterMapLiteral(DynamoSqlParser.MapLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DynamoSqlParser#mapLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void exitMapLiteral(DynamoSqlParser.MapLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DynamoSqlParser#valuePair}.
+	 * @param ctx the parse tree
+	 */
+	void enterValuePair(DynamoSqlParser.ValuePairContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DynamoSqlParser#valuePair}.
+	 * @param ctx the parse tree
+	 */
+	void exitValuePair(DynamoSqlParser.ValuePairContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DynamoSqlParser#numberSetLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumberSetLiteral(DynamoSqlParser.NumberSetLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DynamoSqlParser#numberSetLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumberSetLiteral(DynamoSqlParser.NumberSetLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DynamoSqlParser#stringSetLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void enterStringSetLiteral(DynamoSqlParser.StringSetLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DynamoSqlParser#stringSetLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void exitStringSetLiteral(DynamoSqlParser.StringSetLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DynamoSqlParser#nullNotnull}.
 	 * @param ctx the parse tree

@@ -191,11 +191,23 @@ public interface DynamoSqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSingleUpdateStatement(DynamoSqlParser.SingleUpdateStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link DynamoSqlParser#updateStatementElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUpdateStatementElement(DynamoSqlParser.UpdateStatementElementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link DynamoSqlParser#updatedElement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitUpdatedElement(DynamoSqlParser.UpdatedElementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DynamoSqlParser#removeElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRemoveElement(DynamoSqlParser.RemoveElementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DynamoSqlParser#fullColumnName}.
 	 * @param ctx the parse tree
@@ -208,6 +220,12 @@ public interface DynamoSqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitConstant(DynamoSqlParser.ConstantContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DynamoSqlParser#valueConstant}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueConstant(DynamoSqlParser.ValueConstantContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DynamoSqlParser#decimalLiteral}.
 	 * @param ctx the parse tree
@@ -226,6 +244,36 @@ public interface DynamoSqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStringLiteral(DynamoSqlParser.StringLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DynamoSqlParser#listLiteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListLiteral(DynamoSqlParser.ListLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DynamoSqlParser#mapLiteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMapLiteral(DynamoSqlParser.MapLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DynamoSqlParser#valuePair}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValuePair(DynamoSqlParser.ValuePairContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DynamoSqlParser#numberSetLiteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumberSetLiteral(DynamoSqlParser.NumberSetLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DynamoSqlParser#stringSetLiteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringSetLiteral(DynamoSqlParser.StringSetLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DynamoSqlParser#nullNotnull}.
 	 * @param ctx the parse tree

@@ -139,7 +139,8 @@ BIT_XOR_OP:                          '^';
 
 
 // Constructors symbols
-
+BRACKET_LEFT:                        '[';
+BRACKET_RIGHT:                       ']';
 DOT:                                 '.';
 LR_BRACKET:                          '(';
 RR_BRACKET:                          ')';
@@ -156,6 +157,8 @@ DOUBLE_QUOTE_SYMB:                   '"';
 REVERSE_QUOTE_SYMB:                  '`';
 COLON_SYMB:                          ':';
 QUESTION_MARK_SYMB:                  '?';
+ANGLE_DOUBLE_LEFT:                   '<<';
+ANGLE_DOUBLE_RIGHT:                  '>>';
 
 fragment QUOTE_SYMB
     : SINGLE_QUOTE_SYMB | DOUBLE_QUOTE_SYMB | REVERSE_QUOTE_SYMB

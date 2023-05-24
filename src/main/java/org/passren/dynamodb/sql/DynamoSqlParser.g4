@@ -116,13 +116,22 @@ singleDeleteStatement
 
 singleUpdateStatement
     : UPDATE tableName (AS? uid)?
-      (SET|REMOVE) updatedElement ((SET|REMOVE) updatedElement)*
-      (WHERE expression)?
+      updateStatementElement (updateStatementElement)*
+      WHERE expression
       (RETURNING RETURN_VALUES STAR)?
     ;
 
+updateStatementElement
+    : SET updatedElement
+    | REMOVE removeElement
+    ;
+
 updatedElement
-    : fullColumnName '=' expression
+    : fullColumnName '=' (valueConstant | '?')
+    ;
+
+removeElement
+    : fullColumnName
     ;
 
 fullColumnName
@@ -139,6 +148,14 @@ constant
     | NOT? nullLiteral=NULL_LITERAL
     ;
 
+valueConstant
+    : constant
+    | listLiteral
+    | mapLiteral
+    | numberSetLiteral
+    | stringSetLiteral
+    ;
+
 decimalLiteral
     : DECIMAL_LITERAL | ZERO_DECIMAL | ONE_DECIMAL | TWO_DECIMAL | REAL_LITERAL
     ;
@@ -148,6 +165,30 @@ booleanLiteral
 
 stringLiteral
     : STRING_LITERAL+
+    ;
+
+listLiteral
+    : BRACKET_LEFT BRACKET_RIGHT
+    | BRACKET_LEFT constant (COMMA constant)* BRACKET_RIGHT
+    ;
+
+mapLiteral
+    : LR_BRACE RR_BRACE
+    | LR_BRACE valuePair (COMMA valuePair)* RR_BRACE
+    ;
+
+valuePair
+    : stringLiteral COLON_SYMB constant
+    ;
+
+numberSetLiteral
+    : ANGLE_DOUBLE_LEFT ANGLE_DOUBLE_RIGHT
+    | ANGLE_DOUBLE_LEFT (decimalLiteral | '-' decimalLiteral) (COMMA (decimalLiteral | '-' decimalLiteral))* ANGLE_DOUBLE_RIGHT
+    ;
+
+stringSetLiteral
+    : ANGLE_DOUBLE_LEFT ANGLE_DOUBLE_RIGHT
+    | ANGLE_DOUBLE_LEFT stringLiteral (COMMA stringLiteral)* ANGLE_DOUBLE_RIGHT
     ;
 
 nullNotnull

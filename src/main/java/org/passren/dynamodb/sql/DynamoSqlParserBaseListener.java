@@ -353,6 +353,18 @@ public class DynamoSqlParserBaseListener implements DynamoSqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterUpdateStatementElement(DynamoSqlParser.UpdateStatementElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUpdateStatementElement(DynamoSqlParser.UpdateStatementElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterUpdatedElement(DynamoSqlParser.UpdatedElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -360,6 +372,18 @@ public class DynamoSqlParserBaseListener implements DynamoSqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitUpdatedElement(DynamoSqlParser.UpdatedElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRemoveElement(DynamoSqlParser.RemoveElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRemoveElement(DynamoSqlParser.RemoveElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -384,6 +408,18 @@ public class DynamoSqlParserBaseListener implements DynamoSqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitConstant(DynamoSqlParser.ConstantContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValueConstant(DynamoSqlParser.ValueConstantContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValueConstant(DynamoSqlParser.ValueConstantContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -420,6 +456,66 @@ public class DynamoSqlParserBaseListener implements DynamoSqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitStringLiteral(DynamoSqlParser.StringLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterListLiteral(DynamoSqlParser.ListLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitListLiteral(DynamoSqlParser.ListLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMapLiteral(DynamoSqlParser.MapLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMapLiteral(DynamoSqlParser.MapLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValuePair(DynamoSqlParser.ValuePairContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValuePair(DynamoSqlParser.ValuePairContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNumberSetLiteral(DynamoSqlParser.NumberSetLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNumberSetLiteral(DynamoSqlParser.NumberSetLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStringSetLiteral(DynamoSqlParser.StringSetLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStringSetLiteral(DynamoSqlParser.StringSetLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
