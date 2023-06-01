@@ -40,7 +40,6 @@ public class DmlExecutor extends BaseExecutor {
         if (nextToken != null) {
             builder = builder.nextToken(nextToken);
         }
-
         if (parameters != null) {
             builder = builder.parameters(parameters);
         }

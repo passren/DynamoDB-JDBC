@@ -1,6 +1,3 @@
-// Generated from DynamoSqlParser.g4 by ANTLR 4.12.0
-package org.passren.dynamodb.sql;
-
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;

@@ -1,40 +1,20 @@
 package org.passren.dynamodb;
 
-import java.io.InputStream;
-import java.io.Reader;
-import java.math.BigDecimal;
-import java.net.URL;
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Date;
-import java.sql.NClob;
-import java.sql.ParameterMetaData;
-import java.sql.PreparedStatement;
-import java.sql.Ref;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.RowId;
-import java.sql.SQLException;
-import java.sql.SQLXML;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.passren.dynamodb.engine.BaseSql;
 import org.passren.dynamodb.engine.DmlExecutor;
 import org.passren.dynamodb.engine.SqlFactory;
 import org.passren.dynamodb.engine.Types;
 import org.passren.dynamodb.util.StringUtils;
-
 import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+
+import java.io.InputStream;
+import java.io.Reader;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.sql.Date;
+import java.sql.*;
+import java.util.*;
 
 public class JdbcPreparedStatement extends JdbcStatement implements PreparedStatement {
 
@@ -195,24 +175,36 @@ public class JdbcPreparedStatement extends JdbcStatement implements PreparedStat
         switch (targetSqlType) {
             case Types.B:
                 setBytes(parameterIndex, (byte[])x);
+                break;
             case Types.BOOL:
                 setBoolean(parameterIndex, (boolean)x);
+                break;
             case Types.BS:
                 setBytesSet(parameterIndex, (Set<byte[]>)x);
+                break;
             case Types.L:
                 setList(parameterIndex, (List<AttributeValue>)x);
+                break;
             case Types.M:
                 setMap(parameterIndex, (Map<String, AttributeValue>)x);
+                break;
             case Types.N:
                 setNumber(parameterIndex, (String)x);
+                break;
             case Types.NS:
                 setNumberSet(parameterIndex, (Set<String>)x);
+                break;
             case Types.NUL:
                 setNull(parameterIndex, targetSqlType);
+                break;
             case Types.S:
                 setString(parameterIndex, (String)x);
+                break;
             case Types.SS:
                 setStringSet(parameterIndex, (Set<String>)x);
+                break;
+            default:
+                // do nothing
         }
     }
 

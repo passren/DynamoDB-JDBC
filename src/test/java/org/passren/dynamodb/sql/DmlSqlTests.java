@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.passren.dynamodb.engine.Common.QueryType;
 import org.passren.dynamodb.engine.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -70,13 +72,30 @@ class DmlSqlTests<T> {
             UPDATE Music
             SET AwardsWon=1
             SET AwardDetail='Grammys'
+            REMOVE col1
             WHERE Artist='Acme Band' AND SongTitle='PartiQL Rocks'
         """);
         assertEquals(QueryType.UPDATE, sql.getQueryType());
-        Map<String, String> expected = new HashMap<String, String>();
+        Map<String, String> expected = new HashMap<>();
         expected.put("AwardsWon", "1");
         expected.put("AwardDetail", "'Grammys'");
+        List<String> removedList = new ArrayList<>();
+        removedList.add("col1");
         assertEquals(sql.getUpdatedElements(), expected);
+        assertEquals(sql.getRemovedElements(), removedList);
+    }
+    @Test
+    void updateSqlWithPlaceholderParser() {
+        DmlUpdateSql sql = (DmlUpdateSql) SqlFactory.create("""
+            UPDATE Music
+            SET AwardsWon=?
+            SET AwardDetail=?
+            REMOVE col1
+            WHERE Artist=? AND SongTitle=?
+        """);
+        assertEquals(QueryType.UPDATE, sql.getQueryType());
+        assertEquals("Music", sql.getTable());
+        assertEquals(4, sql.getPlaceholders());
     }
 
     @Test
