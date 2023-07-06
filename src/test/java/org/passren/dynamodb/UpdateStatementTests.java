@@ -62,15 +62,6 @@ public class UpdateStatementTests extends BaseTests {
     void updateDataWithPlaceholder() throws SQLException {
         Statement statement = conn.createStatement();
 
-        String sql = """
-            INSERT INTO ddbjdbc01 VALUE {
-                'pk': 'pk1', 
-                'sk': 0,
-                'col1': 'col1'
-            }
-        """;
-        statement.executeUpdate(sql);
-
         String querySql = """
             SELECT pk, sk, col1 FROM ddbjdbc01
             WHERE pk='pk1'
